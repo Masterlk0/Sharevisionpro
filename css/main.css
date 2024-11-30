@@ -1,0 +1,41 @@
+/* Sidebar Styling */
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 250px;
+    height: 100%;
+    background-color: #202020;
+    color: white;
+    padding-top: 60px;
+    display: none; /* Hidden by default */
+    flex-direction: column;
+    gap: 20px;
+    z-index: 999;
+    transition: transform 0.3s ease;
+}
+
+.sidebar a {
+    text-decoration: none;
+    color: white;
+    padding: 15px;
+    display: block;
+    font-size: 18px;
+}
+
+.sidebar a:hover {
+    background-color: #383838;
+}
+
+.sidebar-open {
+    margin-left: 250px; /* This will push the content to the right */
+}
+
+/* Add a style for the sidebar toggle button */
+.menu-icon {
+    font-size: 30px;
+    cursor: pointer;
+    color: white;
+    padding: 10px;
+}
+

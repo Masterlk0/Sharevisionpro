@@ -29,11 +29,14 @@
             margin-right: 20px;
         }
         .logo {
-            font-size: 24px;
-            font-weight: bold;
-            color: #ff0000;
             display: flex;
             align-items: center;
+            color: white;
+            text-decoration: none;
+        }
+        .logo img {
+            height: 40px;
+            margin-right: 10px;
         }
         .search-bar {
             display: flex;
@@ -69,6 +72,12 @@
             font-size: 20px;
             cursor: pointer;
         }
+        .admin-link {
+            color: white;
+            text-decoration: none;
+            margin-left: 15px;
+            font-size: 16px;
+        }
         /* Sidebar styles */
         .sidebar {
             position: fixed;
@@ -77,7 +86,7 @@
             width: 200px;
             height: 100%;
             background-color: #202020;
-            color: white;
+            color: red;
             padding-top: 60px;
             display: none; /* Hidden by default */
             flex-direction: column;
@@ -146,7 +155,8 @@
     <div class="header">
         <div class="logo">
             <span class="menu-icon" onclick="toggleSidebar()">☰</span>
-            Share Vision
+            <a href="index.html"><img src="logo.png" ></a>
+            <span>Share Vision</span>
         </div>
         <div class="search-bar">
             <input type="text" placeholder="Search">
@@ -157,6 +167,7 @@
             <button class="icon" title="Subscribe">❤️</button>
             <button>Sign In</button>
             <button>Upload</button>
+            <a href="admin.html" class="admin-link">Admin Panel</a>
         </div>
     </div>
 
