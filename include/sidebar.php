@@ -1,4 +1,66 @@
-<?php include 'sidebar.php'; ?>
+<!--?php include 'sidebar.php'; ?>-->
+
+<style>
+    /* Sidebar styling */
+    .sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 200px;
+        height: 100%;
+        background-color: #202020;
+        color: white;
+        padding-top: 60px;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        z-index: 1000;
+        overflow-y: auto;
+    }
+
+    .sidebar a {
+        text-decoration: none;
+        color: white;
+        padding: 10px 20px;
+        font-size: 16px;
+        display: block;
+        transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    .sidebar a:hover {
+        background-color: #383838;
+        color: #ff0000;
+    }
+
+    .sidebar a:focus {
+        background-color: #4a4a4a;
+        outline: none;
+    }
+
+    /* Main content styling when sidebar is open */
+    .main-content {
+        margin-left: 0;
+        transition: margin-left 0.3s ease;
+    }
+
+    .main-content.sidebar-open {
+        margin-left: 200px;
+    }
+
+    /* Responsive styling */
+    @media (max-width: 768px) {
+        .sidebar {
+            width: 100%;
+            height: auto;
+            position: relative;
+        }
+
+        .main-content.sidebar-open {
+            margin-left: 0;
+        }
+    }
+</style>
+
 
 
 <div class="sidebar" id="sidebar">

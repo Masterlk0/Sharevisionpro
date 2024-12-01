@@ -143,12 +143,12 @@
 <body>
     <!-- Sidebar -->
     <div class="sidebar" id="sidebar">
-        <a href="#">Home</a>
-        <a href="#">Trending</a>
-        <a href="#">Subscriptions</a>
-        <a href="#">Library</a>
-        <a href="#">History</a>
-        <a href="#">Your Videos</a>
+        <a href="home.php">Home</a>
+        <a href="trending.php">Trending</a>
+        <a href="sub.php">Subscriptions</a>
+        <a href="library.php">Library</a>
+        <a href="history.php">History</a>
+        <a href="vedio.php">Your Videos</a>
     </div>
 
     <!-- Header -->
@@ -165,8 +165,13 @@
         <div class="user-actions">
             <button class="icon" title="Notifications">🔔</button>
             <button class="icon" title="Subscribe">❤️</button>
-            <button>Sign In</button>
-            <button>Upload</button>
+            <a href="signin.php">
+    <button>Sign In</button>
+</a>
+<a href="upload.php">
+    <button>Upload</button>
+</a>
+
             <a href="admin.html" class="admin-link">Admin Panel</a>
         </div>
     </div>
@@ -205,5 +210,8 @@
             }
         }
     </script>
+    <?php
+    include 'footer.php';
+    ?>
 </body>
 </html>
