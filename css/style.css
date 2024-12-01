@@ -1,0 +1,73 @@
+/* General container for the watch page */
+.watch-container {
+    display: flex;
+    gap: 20px;
+    padding: 20px;
+}
+
+/* Main video container */
+.main-video {
+    flex: 3;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.main-video h1 {
+    font-size: 24px;
+    margin-top: 15px;
+    margin-bottom: 10px;
+}
+
+.channel-name {
+    font-size: 16px;
+    color: #666;
+}
+
+.video-description {
+    margin: 15px 0;
+    font-size: 14px;
+    line-height: 1.6;
+    color: #333;
+}
+
+.video-stats {
+    font-size: 14px;
+    color: #888;
+}
+
+/* Related videos section */
+.related-videos {
+    flex: 1;
+}
+
+.related-videos h2 {
+    font-size: 20px;
+    margin-bottom: 15px;
+}
+
+.related-video-card {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+    text-decoration: none;
+    color: black;
+}
+
+.related-video-card img {
+    width: 100%;
+    height: auto;
+    border-radius: 4px;
+}
+
+.related-video-card h3 {
+    font-size: 16px;
+    margin: 5px 0;
+}
+
+.related-channel {
+    font-size: 14px;
+    color: #666;
+}
