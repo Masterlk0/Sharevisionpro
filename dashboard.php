@@ -11,13 +11,8 @@ if (!isset($_SESSION['user_id'])) {
     exit();
 }
 
-// Fetch user uploaded videos
+// Fetch user information
 $user_id = $_SESSION['user_id'];
-$stmt = $pdo->prepare("SELECT * FROM videos WHERE user_id = ? ORDER BY created_at DESC");
-$stmt->execute([$user_id]);
-$videos = $stmt->fetchAll();
-
-// Fetch user info
 $stmt = $pdo->prepare("SELECT * FROM users WHERE id = ?");
 $stmt->execute([$user_id]);
 $user = $stmt->fetch();
@@ -27,13 +22,15 @@ $user = $stmt->fetch();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Library - Share Vision</title>
+    <title>Dashboard - Share Vision</title>
     <style>
         /* General Styling */
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
+            display: flex;
+            height: 100vh;
             background-color: #f9f9f9;
             color: #333;
         }
@@ -64,46 +61,39 @@ $user = $stmt->fetch();
 
         /* Main Content Styling */
         .main-content {
-            margin-left: 250px;
+            margin-left: 250px; /* Offset for the sidebar */
             padding: 20px;
             flex-grow: 1;
         }
 
-        .title {
+        .welcome-message {
             font-size: 24px;
             margin-bottom: 20px;
         }
 
-        .video-list {
+        .stats {
             display: flex;
-            flex-wrap: wrap;
             gap: 20px;
         }
 
-        .video-item {
+        .stat-box {
             flex: 1;
-            padding: 10px;
-            width: 200px;
+            padding: 20px;
             background-color: white;
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             text-align: center;
         }
 
-        .video-item img {
-            width: 100%;
-            height: 120px;
-            object-fit: cover;
-            margin-bottom: 10px;
-        }
-
-        .video-item h4 {
-            font-size: 16px;
+        .stat-box h3 {
             margin: 0;
+            font-size: 18px;
+            color: #007bff;
         }
 
-        .video-item .views {
-            color: #777;
+        .stat-box p {
+            margin: 5px 0;
+            font-size: 16px;
         }
     </style>
 </head>
@@ -113,7 +103,6 @@ $user = $stmt->fetch();
         <h3>Share Vision</h3>
         <a href="dashboard.php">Dashboard</a>
         <a href="upload.php">Upload Video</a>
-        <a href="trending.php">Trending</a>
         <a href="subscriptions.php">Subscriptions</a>
         <a href="library.php">Library</a>
         <a href="logout.php">Logout</a>
@@ -121,23 +110,35 @@ $user = $stmt->fetch();
 
     <!-- Main Content -->
     <div class="main-content">
-        <div class="title">
-            Your Video Library
+        <div class="welcome-message">
+            Welcome, <?php echo htmlspecialchars($user['username']); ?>!
         </div>
-
-        <?php if (count($videos) > 0): ?>
-            <div class="video-list">
-                <?php foreach ($videos as $video): ?>
-                    <div class="video-item">
-                        <img src="<?php echo htmlspecialchars($video['thumbnail_path']); ?>" alt="Thumbnail">
-                        <h4><?php echo htmlspecialchars($video['title']); ?></h4>
-                        <p class="views"><?php echo $video['views']; ?> views</p>
-                    </div>
-                <?php endforeach; ?>
+        <div class="stats">
+            <div class="stat-box">
+                <h3>Videos Uploaded</h3>
+                <p>
+                    <?php
+                    $stmt = $pdo->prepare("SELECT COUNT(*) FROM videos WHERE user_id = ?");
+                    $stmt->execute([$user_id]);
+                    echo $stmt->fetchColumn();
+                    ?>
+                </p>
             </div>
-        <?php else: ?>
-            <p>You haven't uploaded any videos yet.</p>
-        <?php endif; ?>
+            <div class="stat-box">
+                <h3>Total Views</h3>
+                <p>
+                    <?php
+                    $stmt = $pdo->prepare("SELECT SUM(views) FROM videos WHERE user_id = ?");
+                    $stmt->execute([$user_id]);
+                    echo $stmt->fetchColumn() ?? 0;
+                    ?>
+                </p>
+            </div>
+            <div class="stat-box">
+                <h3>Subscribers</h3>
+                <p>Coming Soon!</p>
+            </div>
+        </div>
     </div>
 </body>
 </html>

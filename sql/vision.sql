@@ -63,6 +63,16 @@ CREATE TABLE IF NOT EXISTS subscriptions (
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
+CREATE TABLE video_watches (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    video_id INT NOT NULL,
+    watched_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (video_id) REFERENCES videos(id) ON DELETE CASCADE
+);
+
+
 -- Example admin for testing
 INSERT INTO admins (username, password)
 VALUES 

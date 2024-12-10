@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign In - Share Vision</title>
+    <title>Sign Up - Share Vision</title>
     <style>
         /* General Body Styling */
         body {
@@ -18,8 +18,8 @@
             color: #333;
         }
 
-        /* Sign In Container */
-        .signin-container {
+        /* Sign Up Container */
+        .signup-container {
             max-width: 400px;
             width: 100%;
             background-color: white;
@@ -29,7 +29,7 @@
             text-align: center;
         }
 
-        .signin-container h2 {
+        .signup-container h2 {
             font-size: 24px;
             margin-bottom: 20px;
             color: #202020;
@@ -49,6 +49,7 @@
             text-align: left;
         }
 
+        input[type="text"],
         input[type="email"],
         input[type="password"] {
             width: 100%;
@@ -58,6 +59,7 @@
             font-size: 14px;
         }
 
+        input[type="text"]:focus,
         input[type="email"]:focus,
         input[type="password"]:focus {
             border-color: #007bff;
@@ -80,64 +82,81 @@
         }
 
         /* Link Styling */
-        .signin-container a {
+        .signup-container a {
             color: #007bff;
             text-decoration: none;
             font-size: 14px;
         }
 
-        .signin-container a:hover {
+        .signup-container a:hover {
             text-decoration: underline;
         }
     </style>
 </head>
 <body>
-    <div class="signin-container">
-        <h2>Sign In</h2>
-        <form action="" method="POST">
+    <div class="signup-container">
+        <h2>Sign Up</h2>
+        <form action="signup.php" method="POST">
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" placeholder="Enter your username" required>
+
             <label for="email">Email</label>
             <input type="email" id="email" name="email" placeholder="Enter your email" required>
 
             <label for="password">Password</label>
-            <input type="password" id="password" name="password" placeholder="Enter your password" required>
+            <input type="password" id="password" name="password" placeholder="Create a password" required>
 
-            <button type="submit">Sign In</button>
+            <label for="confirm_password">Confirm Password</label>
+            <input type="password" id="confirm_password" name="confirm_password" placeholder="Re-enter your password" required>
+
+            <button type="submit">Sign Up</button>
         </form>
         <p>
-            Don't have an account? <a href="signup.php">Sign Up</a>
+            Already have an account? <a href="signin.php">Sign In</a>
         </p>
     </div>
 </body>
 </html>
 
+
+
 <?php
 // Include database connection
 require_once 'config/db.php';
 
-// Start the session
+// Start session
 session_start();
 
 // Check if the form is submitted
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $email = $_POST['email'];
+    $username = trim($_POST['username']);
+    $email = trim($_POST['email']);
     $password = $_POST['password'];
+    $confirm_password = $_POST['confirm_password'];
 
-    // Fetch user data from the database
-    $stmt = $pdo->prepare("SELECT * FROM users WHERE email = ?");
-    $stmt->execute([$email]);
-    $user = $stmt->fetch();
-
-    if ($user && password_verify($password, $user['password'])) {
-        // Set session variables
-        $_SESSION['user_id'] = $user['id'];
-        $_SESSION['email'] = $user['email'];
-        $_SESSION['role'] = $user['role'];
-
-        // Redirect to the dashboard
-        header("Location: index.php");
-        exit();
+    // Validate form data
+    if ($password !== $confirm_password) {
+        echo "<script>alert('Passwords do not match!');</script>";
     } else {
-        echo "<script>alert('Invalid email or password!');</script>";
+        // Hash the password
+        $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+
+        // Check if the username or email already exists
+        $stmt = $pdo->prepare("SELECT id FROM users WHERE username = ? OR email = ?");
+        $stmt->execute([$username, $email]);
+        if ($stmt->rowCount() > 0) {
+            echo "<script>alert('Username or Email already exists!');</script>";
+        } else {
+            // Insert the user into the database
+            $stmt = $pdo->prepare("INSERT INTO users (username, email, password) VALUES (?, ?, ?)");
+            if ($stmt->execute([$username, $email, $hashed_password])) {
+                echo "<script>alert('Account created successfully!');</script>";
+                header("Location: signin.php");
+                exit();
+            } else {
+                echo "<script>alert('Failed to create account. Please try again!');</script>";
+            }
+        }
     }
 }
 ?>

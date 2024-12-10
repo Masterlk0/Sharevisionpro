@@ -172,7 +172,7 @@
     <button>Upload</button>
 </a>
 
-            <a href="admin.html" class="admin-link">Admin Panel</a>
+            <a href="dashboard.php" class="admin-link">Admin Panel</a>
         </div>
     </div>
 
